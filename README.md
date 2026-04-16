@@ -1,72 +1,104 @@
+EXPERIMENT: DATA NORMALISATION AND DATA TYPE CONVERSION
+
 AIM
-To perform exploratory data analysis and data visualization using Python, 
-and to understand how to analyze datasets and represent them graphically using libraries such as Pandas, Matplotlib, and Seaborn.
+To implement data normalisation techniques (Min-Max, Z-score, Decimal Scaling) and data type conversion using encoding methods (Label Encoding, One-Hot Encoding, Dummy Encoding) in Python using Pandas and Scikit-learn.
 
-THEORY
-1. Exploratory Data Analysis (EDA)
-EDA is the initial step in data analysis where datasets are explored to understand their structure, patterns, and relationships.
+THEORY 
+1. Creating Dataset using Pandas
+A dataset of products is created using:
+pd.DataFrame(data)
+It contains:
+Product names
+Price
+Units Sold
+Discount
+This step is used to store structured data in tabular form for further processing.
 
-Helps to:
-Summarize main characteristics
-Identify trends and outliers
-Prepare data for further analysis
+2. Min-Max Normalisation
+a) Price Normalisation
+df['Price_MinMax'] = (df['Price'] - df['Price'].min()) / (df['Price'].max() - df['Price'].min())
+Converts price into range 0 to 1
+Example:
+Max price → 1
+Min price → 0
 
-Functions used:
-df.head(), df.tail(), df.info(), df.describe()
+b) Discount Normalisation
+df['Discount_MinMax'] = (df['Discount'] - df['Discount'].min()) / (df['Discount'].max() - df['Discount'].min())
+  Same formula applied to another column → shows column-wise normalization
 
-2. Data Cleaning
-Data cleaning ensures accuracy and consistency.
-Handling missing values:
-df.dropna()
-df.fillna()
+c) Multiple Column Normalisation
+cols = ['Price','Units_Sold','Discount']
+df_norm = (df[cols] - df[cols].min()) / (df[cols].max() - df[cols].min())
+  This step normalizes multiple columns at once using vectorized operations.
 
-Removing duplicate entries:
-df.drop_duplicates()
-Changing data types:
-df.astype()
+3. Z-Score Normalisation
 
-3. Data Aggregation
-Aggregation helps in summarizing data.
-Using groupby():
-df.groupby('Category').sum()
-df.groupby('Category').mean()
+a) Price Z-score
+df['Price_Zscore'] = (df['Price'] - df['Price'].mean()) / df['Price'].std()
+Centers data around mean
+Uses standard deviation
 
-Useful for:
-Category-wise comparison
-Extracting meaningful insights
+b) Units Sold Z-score
+df['Units_Zscore'] = (df['Units_Sold'] - df['Units_Sold'].mean()) / df['Units_Sold'].std()
 
-4. Data Visualization
-Visualization represents data graphically for better understanding.
+c) Discount Z-score
+df['Discount_Zscore'] = (df['Discount'] - df['Discount'].mean()) / df['Discount'].std()
 
-Types of graphs:
-Bar Chart
+d) Multiple Column Z-score
+df_zscore = (df[cols] - df[cols].mean()) / df[cols].std()
+  This step applies standardization on multiple features simultaneously
 
-Used for comparing categories
-df['Category'].value_counts().plot(kind='bar')
-Line Chart
-Shows trends over time
-Histogram
-Displays distribution of data
-Scatter Plot
-Shows relationship between variables
-Pie Chart
-Represents proportions
+4. Decimal Scaling
+df['Price_Decimal'] = df['Price'] / 100000
+Reduces magnitude by shifting decimal
+Example: 55000 → 0.55
+  Used for simple scaling without complex calculations
 
-5. Libraries Used
-Pandas → Data manipulation
-Matplotlib → Basic plotting
-Seaborn → Advanced visualization
+5. Second Dataset Creation
+A new dataset is created with:
+Order ID
+Gender
+Payment Method
+Product Category
+City
+Order Value
+   This dataset is used for categorical data conversion (encoding)
+6. Label Encoding
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+df['Customer_Gender_Encoded'] = le.fit_transform(df['Customer_Gender'])
+Converts categories into numbers
+Example:
+Male → 1
+Female → 0
+  Used when categories are binary or ordinal
 
-6. Importance
-Simplifies complex data
-Helps in decision making
-Reveals hidden patterns
+7. One-Hot Encoding
+df_encoded = pd.get_dummies(df, columns=['Payment_Method'])
+Converts categories into separate columns
+Each category becomes True/False
+  Prevents misinterpretation of numeric relationships
+
+8. Encoding Multiple Columns
+df_multi = pd.get_dummies(df, columns=['Product_Category','City'])
+  Encodes multiple categorical features at once
+
+9. Dummy Encoding (Drop First)
+df_dummy = pd.get_dummies(df, columns=['Payment_Method'], drop_first=True)
+Removes one column to avoid:
+Dummy Variable Trap
+Multicollinearity
 
 
 CONCLUSION
-The experiment successfully demonstrated the use of data analysis and visualization techniques in Python. By applying functions such as grouping, cleaning, and plotting, raw data was converted into meaningful insights.
-Visualization made it easier to:
-Understand patterns and trends
-Compare different categories
-Communicate results effectively
-Thus, EDA and visualization are essential tools in data science and play a crucial role in real-world data analysis tasks.
+The experiment successfully demonstrated data normalisation and data type conversion techniques using Python.
+Min-Max normalization scaled values between 0 and 1
+Z-score normalization standardized data based on mean and standard deviation
+Decimal scaling reduced magnitude of values
+
+
+Overall, these preprocessing techniques help in:
+Improving data quality
+Making data suitable for machine learning
+Ensuring accurate and efficient analysis
+
