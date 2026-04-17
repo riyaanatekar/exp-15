@@ -1,145 +1,132 @@
-EXPERIMENT: DATA NORMALISATION AND DATA TYPE CONVERSION
+AIM
 
-Aim
-To study and perform data analysis and preprocessing using Python (Pandas library) by creating structured datasets and applying various functions such as pd.DataFrame(), head(), tail(), info(), describe(), isnull(), dropna(), fillna(), value_counts(), groupby(), sort_values(), astype(), and apply() in order to clean, transform, organize, and analyze data efficiently.
+The aim of this experiment is to study and implement various data normalization techniques and data type conversion methods using Python libraries such as Pandas, NumPy, and Scikit-learn.
+The experiment focuses on transforming raw data into a structured and standardized format by applying:
 
-Theory
-1. Introduction to Data Analysis and Preprocessing
-Data analysis is the process of examining, organizing, transforming, and interpreting data to extract useful information. Before analysis, raw data must undergo data preprocessing, which includes:
-Handling missing values
-Correcting data types
-Organizing and sorting data
-Summarizing and grouping data
+Min-Max Normalization
+Z-Score Normalization
+Decimal Scaling
+Label Encoding
+One-Hot Encoding
+Dummy Encoding
 
-The Pandas library in Python provides powerful tools to perform all these operations efficiently using DataFrames.
+It also aims to understand how these techniques improve data quality, consistency, and suitability for data analysis and machine learning models.
+
+THEORY
+1. Data Normalization
+
+Data normalization is the process of scaling numerical data into a specific range or distribution so that different features contribute equally to analysis. It is essential when dealing with datasets having varying scales.
+
+a) Min-Max Normalization
+Min-Max normalization transforms data into a fixed range between 0 and 1 .
+
+In the experiment:
+Applied on the Price column individually
+Applied on multiple columns like Price, Units_Sold, Discount
+
+Functions used:
+df['Price'].min()
+df['Price'].max()
+Vectorized operations in Pandas
+
+Purpose:
+Scales all values proportionally
+Useful when the distribution is not Gaussian
+
+b) Z-Score Normalization (Standardization)
+
+Z-score normalization converts data into a distribution with mean = 0 and standard deviation = 1:
+
+In the experiment:
+Applied to Units_Sold
+Also applied to multiple columns
+
+Functions used:
+df['Units_Sold'].mean()
+df['Units_Sold'].std()
+
+Purpose:
+Handles outliers effectively
+Suitable for statistical analysis and ML models
+
+c) Decimal Scaling
+
+Decimal scaling normalizes data by dividing values by powers of 10:
+
+Where j is chosen such that the maximum value becomes less than 1.
+
+In the experiment:
+Price divided by 10000
+Units_Sold divided by 100
+
+Purpose:
+Simple normalization method
+Based on magnitude of values
 
 
-2. Data Structure: DataFrame
-Function: pd.DataFrame()
-A DataFrame is a two-dimensional labeled data structure consisting of rows and columns.
-It is used to store heterogeneous data (different data types).
+2. Data Type Conversion
+Categorical data must be converted into numerical form for machine learning algorithms.
 
-Importance:
-Forms the base for all data operations
-Allows easy manipulation and analysis
-3. Data Inspection and Understanding
-
-a) head() and tail()
-head() displays the first few rows (default = 5).
-tail() displays the last few rows.
- Purpose:
-Quick overview of dataset
-Helps verify whether data is loaded correctly
-
-b) info()
-Provides concise summary of DataFrame:
-Column names
-Number of non-null entries
-Data types
- Importance:
-Helps identify missing values
-Useful for checking data consistency
-
-c) describe()
-Generates statistical summary for numerical columns:
-Mean
-Median (50%)
-Standard deviation
-Minimum and maximum
-Quartiles (25%, 75%)
- Importance:
-Helps understand distribution and spread of data
-Useful for detecting outliers
-
-4. Handling Missing Data
-Missing data is a common issue in real-world datasets and must be handled carefully.
-
- a) isnull()
-Detects missing values (NaN).
-Returns Boolean values (True for missing).
-
- b) dropna()
-Removes rows or columns containing missing values.
-
- Types:
-Row-wise removal
-Column-wise removal
-
- c) fillna()
-Replaces missing values with:
-Constant value
-Mean/median
-Forward/backward fill
- Importance:
-Maintains dataset size
-Prevents data loss
-
-5. Data Transformation and Formatting
-a) astype()
-Converts data type of a column.
+a) Label Encoding
+Label encoding assigns integer values to categories.
 
 Example:
-Integer → Float
-String → Integer
+Male → 1
+Female → 0
 
- Importance:
-Ensures compatibility for calculations
-Avoids errors in analysis
- b) apply()
-Applies a custom function across rows or columns.
+Functions used:
+LabelEncoder()
+fit_transform()
 
-Importance:
-Enables flexible data transformation
-Useful for complex operations
+Characteristics:
+Assigns values based on alphabetical order
+Can be reversed
+Suitable for ordinal data
 
-c) Column Renaming
-Improves readability and understanding of dataset.
+b) One-Hot Encoding
+One-hot encoding creates binary columns for each category.
 
+Example:
+Payment methods → COD, Credit Card, Debit Card, UPI
+Each becomes a separate column with 0 or 1
 
-6. Data Analysis Techniques
-a) value_counts()
-Counts occurrences of unique values in a column.
+Functions used:
+pd.get_dummies()
 
-Importance:
-Helps analyze categorical data
-Identifies most frequent values
+Characteristics:
+Avoids ordinal relationship
+Increases dimensionality
 
-b) groupby()
-Splits data into groups based on column values.
-Performs aggregate functions like:
-Sum
-Mean
-Count
+c) Dummy Encoding (Drop First)
+Dummy encoding is a reduced version of one-hot encoding where one column is dropped to avoid redundancy.
 
-Importance:
-Helps in pattern recognition
-Useful for comparative analysis
+Functions used:
+pd.get_dummies(drop_first=True)
 
+Purpose:
+Prevents dummy variable trap
+Reduces multicollinearity
 
-7. Data Sorting
-Function: sort_values()
-Sorts dataset based on column values.
-Types:
-Ascending (default)
-Descending (ascending=False)
+3. Working with External Datasets
+The experiment also applies normalization and encoding on real datasets:
+Amazon Dataset
+Min-Max normalization on Price, Units_Sold, Rating, Reviews
+Z-score normalization on multiple columns
+Decimal scaling on Price and Reviews
+Student Dataset
+Label encoding for Placement_Status
+One-hot encoding for Department
+Dummy encoding for reduced feature set
 
-Importance:
-Helps identify highest/lowest values
-Makes data organized and readable
+4. Libraries Used
+Pandas (pd) → Data manipulation and DataFrame operations
+NumPy (np) → Numerical computations
+Scikit-learn (LabelEncoder) → Encoding categorical data
 
-
-8. Importance of Data Preprocessing
-Improves data quality
-Removes inconsistencies and errors
-Ensures accurate results
-Prepares data for visualization and modeling
-Conclusion
-
-The experiment successfully demonstrates the application of data analysis and preprocessing techniques using the Pandas library. The DataFrame structure provides an efficient way to store and manipulate data.
-
-Functions like head(), tail(), info(), and describe() help in understanding the dataset, while isnull(), dropna(), and fillna() effectively handle missing data. Data transformation functions such as astype() and apply() ensure proper formatting and flexibility in operations.
-
-Analytical functions like value_counts() and groupby() allow meaningful interpretation of data by identifying patterns and relationships. Additionally, sort_values() helps in organizing data systematically.
-
-Overall, the experiment highlights the significance of data cleaning, transformation, and analysis, which are essential steps in converting raw data into meaningful insights and supporting effective decision-making in real-world applications.
+CONCLUSION
+In this experiment, various techniques of data normalization and data type conversion were successfully implemented and analyzed using Python.
+Min-Max normalization scaled data within a fixed range, making it easier to compare different features. Z-score normalization standardized the data and proved effective in handling outliers by centering values around the mean. Decimal scaling provided a simple approach to reduce large numerical values based on their magnitude.
+For categorical data, label encoding converted text data into numerical form but introduced ordinal relationships. One-hot encoding resolved this issue by creating independent binary columns, while dummy encoding further optimized the dataset by reducing redundancy and avoiding multicollinearity.
+The use of functions such as min(), max(), mean(), std(), fit_transform(), and pd.get_dummies() demonstrated how Python libraries simplify complex data preprocessing tasks.
+Overall, the experiment highlighted the importance of preprocessing in data analysis. Proper normalization and encoding ensure that datasets are clean, consistent, and suitable for statistical analysis and machine learning models, ultimately improving accuracy and performance.
 
