@@ -1,104 +1,145 @@
 EXPERIMENT: DATA NORMALISATION AND DATA TYPE CONVERSION
 
-AIM
-To implement data normalisation techniques (Min-Max, Z-score, Decimal Scaling) and data type conversion using encoding methods (Label Encoding, One-Hot Encoding, Dummy Encoding) in Python using Pandas and Scikit-learn.
+Aim
+To study and perform data analysis and preprocessing using Python (Pandas library) by creating structured datasets and applying various functions such as pd.DataFrame(), head(), tail(), info(), describe(), isnull(), dropna(), fillna(), value_counts(), groupby(), sort_values(), astype(), and apply() in order to clean, transform, organize, and analyze data efficiently.
 
-THEORY 
-1. Creating Dataset using Pandas
-A dataset of products is created using:
-pd.DataFrame(data)
-It contains:
-Product names
-Price
-Units Sold
-Discount
-This step is used to store structured data in tabular form for further processing.
+Theory
+1. Introduction to Data Analysis and Preprocessing
+Data analysis is the process of examining, organizing, transforming, and interpreting data to extract useful information. Before analysis, raw data must undergo data preprocessing, which includes:
+Handling missing values
+Correcting data types
+Organizing and sorting data
+Summarizing and grouping data
 
-2. Min-Max Normalisation
-a) Price Normalisation
-df['Price_MinMax'] = (df['Price'] - df['Price'].min()) / (df['Price'].max() - df['Price'].min())
-Converts price into range 0 to 1
+The Pandas library in Python provides powerful tools to perform all these operations efficiently using DataFrames.
+
+
+2. Data Structure: DataFrame
+Function: pd.DataFrame()
+A DataFrame is a two-dimensional labeled data structure consisting of rows and columns.
+It is used to store heterogeneous data (different data types).
+
+Importance:
+Forms the base for all data operations
+Allows easy manipulation and analysis
+3. Data Inspection and Understanding
+
+a) head() and tail()
+head() displays the first few rows (default = 5).
+tail() displays the last few rows.
+ Purpose:
+Quick overview of dataset
+Helps verify whether data is loaded correctly
+
+b) info()
+Provides concise summary of DataFrame:
+Column names
+Number of non-null entries
+Data types
+ Importance:
+Helps identify missing values
+Useful for checking data consistency
+
+c) describe()
+Generates statistical summary for numerical columns:
+Mean
+Median (50%)
+Standard deviation
+Minimum and maximum
+Quartiles (25%, 75%)
+ Importance:
+Helps understand distribution and spread of data
+Useful for detecting outliers
+
+4. Handling Missing Data
+Missing data is a common issue in real-world datasets and must be handled carefully.
+
+ a) isnull()
+Detects missing values (NaN).
+Returns Boolean values (True for missing).
+
+ b) dropna()
+Removes rows or columns containing missing values.
+
+ Types:
+Row-wise removal
+Column-wise removal
+
+ c) fillna()
+Replaces missing values with:
+Constant value
+Mean/median
+Forward/backward fill
+ Importance:
+Maintains dataset size
+Prevents data loss
+
+5. Data Transformation and Formatting
+a) astype()
+Converts data type of a column.
+
 Example:
-Max price → 1
-Min price → 0
+Integer → Float
+String → Integer
 
-b) Discount Normalisation
-df['Discount_MinMax'] = (df['Discount'] - df['Discount'].min()) / (df['Discount'].max() - df['Discount'].min())
-  Same formula applied to another column → shows column-wise normalization
+ Importance:
+Ensures compatibility for calculations
+Avoids errors in analysis
+ b) apply()
+Applies a custom function across rows or columns.
 
-c) Multiple Column Normalisation
-cols = ['Price','Units_Sold','Discount']
-df_norm = (df[cols] - df[cols].min()) / (df[cols].max() - df[cols].min())
-  This step normalizes multiple columns at once using vectorized operations.
+Importance:
+Enables flexible data transformation
+Useful for complex operations
 
-3. Z-Score Normalisation
-
-a) Price Z-score
-df['Price_Zscore'] = (df['Price'] - df['Price'].mean()) / df['Price'].std()
-Centers data around mean
-Uses standard deviation
-
-b) Units Sold Z-score
-df['Units_Zscore'] = (df['Units_Sold'] - df['Units_Sold'].mean()) / df['Units_Sold'].std()
-
-c) Discount Z-score
-df['Discount_Zscore'] = (df['Discount'] - df['Discount'].mean()) / df['Discount'].std()
-
-d) Multiple Column Z-score
-df_zscore = (df[cols] - df[cols].mean()) / df[cols].std()
-  This step applies standardization on multiple features simultaneously
-
-4. Decimal Scaling
-df['Price_Decimal'] = df['Price'] / 100000
-Reduces magnitude by shifting decimal
-Example: 55000 → 0.55
-  Used for simple scaling without complex calculations
-
-5. Second Dataset Creation
-A new dataset is created with:
-Order ID
-Gender
-Payment Method
-Product Category
-City
-Order Value
-   This dataset is used for categorical data conversion (encoding)
-6. Label Encoding
-from sklearn.preprocessing import LabelEncoder
-le = LabelEncoder()
-df['Customer_Gender_Encoded'] = le.fit_transform(df['Customer_Gender'])
-Converts categories into numbers
-Example:
-Male → 1
-Female → 0
-  Used when categories are binary or ordinal
-
-7. One-Hot Encoding
-df_encoded = pd.get_dummies(df, columns=['Payment_Method'])
-Converts categories into separate columns
-Each category becomes True/False
-  Prevents misinterpretation of numeric relationships
-
-8. Encoding Multiple Columns
-df_multi = pd.get_dummies(df, columns=['Product_Category','City'])
-  Encodes multiple categorical features at once
-
-9. Dummy Encoding (Drop First)
-df_dummy = pd.get_dummies(df, columns=['Payment_Method'], drop_first=True)
-Removes one column to avoid:
-Dummy Variable Trap
-Multicollinearity
+c) Column Renaming
+Improves readability and understanding of dataset.
 
 
-CONCLUSION
-The experiment successfully demonstrated data normalisation and data type conversion techniques using Python.
-Min-Max normalization scaled values between 0 and 1
-Z-score normalization standardized data based on mean and standard deviation
-Decimal scaling reduced magnitude of values
+6. Data Analysis Techniques
+a) value_counts()
+Counts occurrences of unique values in a column.
+
+Importance:
+Helps analyze categorical data
+Identifies most frequent values
+
+b) groupby()
+Splits data into groups based on column values.
+Performs aggregate functions like:
+Sum
+Mean
+Count
+
+Importance:
+Helps in pattern recognition
+Useful for comparative analysis
 
 
-Overall, these preprocessing techniques help in:
-Improving data quality
-Making data suitable for machine learning
-Ensuring accurate and efficient analysis
+7. Data Sorting
+Function: sort_values()
+Sorts dataset based on column values.
+Types:
+Ascending (default)
+Descending (ascending=False)
+
+Importance:
+Helps identify highest/lowest values
+Makes data organized and readable
+
+
+8. Importance of Data Preprocessing
+Improves data quality
+Removes inconsistencies and errors
+Ensures accurate results
+Prepares data for visualization and modeling
+Conclusion
+
+The experiment successfully demonstrates the application of data analysis and preprocessing techniques using the Pandas library. The DataFrame structure provides an efficient way to store and manipulate data.
+
+Functions like head(), tail(), info(), and describe() help in understanding the dataset, while isnull(), dropna(), and fillna() effectively handle missing data. Data transformation functions such as astype() and apply() ensure proper formatting and flexibility in operations.
+
+Analytical functions like value_counts() and groupby() allow meaningful interpretation of data by identifying patterns and relationships. Additionally, sort_values() helps in organizing data systematically.
+
+Overall, the experiment highlights the significance of data cleaning, transformation, and analysis, which are essential steps in converting raw data into meaningful insights and supporting effective decision-making in real-world applications.
 
